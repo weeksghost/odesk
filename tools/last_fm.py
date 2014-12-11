@@ -11,6 +11,7 @@ def get_tracks():
   j = json.loads(urllib.urlopen(url).read())
   results = j['similartracks']['track']
 
+  nodes = []
   starget = {}
   tracks = {}
   for obj in results:
@@ -24,20 +25,25 @@ def get_tracks():
     tracks['artist'] = obj['artist']['name']
     tracks['playcount'] = obj['playcount']
     tracks['id'] = song_id
-    #nodes.append(tracks)
 
-    data = json.dumps(tracks, indent=2, sort_keys=True)
+    data = json.JSONEncoder().encode(zip(tracks, starget))
+    nodes.append(data)
+    all_songs = json.dumps({'nodes': nodes}, indent=2)
+  return all_songs
 
     #sources = json.dumps(starget, indent=2)
+    #data = json.dumps(tracks, indent=2, sort_keys=True)
     #data = json.dumps([tracks for tracks in nodes], indent=2)
 
-
-    yield data
+  #return tracks
     #yield sources
 
-track_generator = get_tracks()
+print(get_tracks())
 
-nodes = []
-for items in track_generator:
-  nodes.append(items)
-  print nodes
+#track_generator = get_tracks()
+#nodes = []
+#for items in track_generator:
+#  #results = json.dumps(items, indent=2)
+#  nodes.append(items)
+#  #output = json.dumps({'nodes': nodes}, indent=2)
+#print json.dumps({'nodes': tracks}, indent=2)
