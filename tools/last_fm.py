@@ -3,7 +3,6 @@
 import re
 import json
 import urllib
-import pickle
 
 def get_tracks():
   url = 'http://ws.audioscrobbler.com/2.0/?method=track.getsimilar&artist=u2&track=With+or+Without+You&api_key=6b1730aec724adfbf0e21befc7385e6c&format=json'
@@ -19,8 +18,9 @@ def get_tracks():
     song = re.sub(r'\W+', '_', obj['name']).lower()
     player = re.sub(r'\W+', '_', obj['artist']['name']).lower()
     song_id = "_".join([song, player])
+    song_id2 = "_".join([song, player])
     starget['source'] = song_id
-
+    starget['target'] = song_id2
     tracks['match'] = obj['match']
     tracks['name'] = obj['name']
     tracks['artist'] = obj['artist']['name']
