@@ -16,16 +16,17 @@ def get_tracks():
   for obj in results:
     tracks = {}
     starget = {}
-    song = re.sub(r'\W+', '_', obj['name']).lower()
-    player = re.sub(r'\W+', '_', obj['artist']['name']).lower()
-    song_id = "_".join([song, player])
+    sid = obj['name'] + '_' + obj['artist']['name']
+    sid = re.sub(r'[^\x00-\x7F]+', '', sid)
+    sid = re.sub(r'/\s+/', '_', sid)
+    sid = re.sub(r'\W+', '', sid).lower()
     starget['source'] = "with_or_without_you_u2"
-    starget['target'] = song_id
+    starget['target'] = sid
     tracks['match'] = obj['match']
     tracks['name'] = obj['name']
     tracks['artist'] = obj['artist']['name']
     tracks['playcount'] = obj['playcount']
-    tracks['id'] = song_id
+    tracks['id'] = sid
     nodes.append(tracks)
     links.append(starget)
     all_songs = json.dumps({'nodes': nodes, 'links': links}, indent=2)
