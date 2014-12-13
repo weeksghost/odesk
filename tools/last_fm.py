@@ -24,15 +24,14 @@ def get_tracks():
     song_id = re.sub(r'[^\x00-\x7F]+', 'no_data', song_id)
     starget['source'] = "with_or_without_you_u2"
     starget['target'] = song_id
-    tracks['match'] = obj['match']
+    tracks['match'] = float(obj['match'])
     tracks['name'] = obj['name']
     tracks['artist'] = obj['artist']['name']
-    tracks['playcount'] = obj['playcount']
+    tracks['playcount'] = float(obj['playcount'])
     tracks['id'] = song_id
-
     nodes.append(tracks)
     links.append(starget)
-    all_songs = json.dumps({'nodes': nodes, 'links': links}, indent=1)
+    all_songs = json.dumps({'nodes': nodes, 'links': links}, indent=2)
   return all_songs.strip()
 
 print(get_tracks())
